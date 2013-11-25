@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;star-rating&gt;</title>
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.0.20130816/polymer.min.js"></script> 
+
+    <!-- Importing Custom Elements -->
+    <link rel="import" href="src/star-rating.html">
+</head>
+<body>
+
+    <!-- Using Custom Elements -->
+    <div>
+        <star-rating></star-rating>
+        <span class="count"></span>
+    </div>
+
+    <div>
+        <star-rating votes="3" votesSum="3" starCount="10"></star-rating>
+        <span class="count"></span>
+    </div>
+
+    <div>
+        <star-rating votes="3" votesSum="3" starCount="10" readyOnly="true"></star-rating>
+        <span class="count"></span>
+    </div>
+
+    <script>
+    // set this callback to run when user iterate
+    window.starRatingCallback = function( options ) {
+        // this refers to the pollymer
+        this.parentNode.lastElementChild.innerHTML = options.votes + ' people voted and the sum is ' + options.votesSum;
+    }
+    </script>
+
+</body>
+</html>
