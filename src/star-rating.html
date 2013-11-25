@@ -1,28 +1,165 @@
-<polymer-element name="facebook-button" attributes="action colorscheme font href layout showfaces height width">
+<polymer-element name="star-rating" attributes="starCount votes votesSum url readyOnly">
 
   <template>
-    <iframe src="//www.facebook.com/plugins/like.php?href={{href}}&amp;send=false&amp;layout={{layout}}&amp;width={{width}}&amp;height={{height}}&amp;show_faces={{showfaces}}&amp;font={{font}}&amp;colorscheme={{colorscheme}}&amp;action={{action}}" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+    <div id="starRating">
+    </div>
 
     <style>
-      iframe {
-        border: none;
-        overflow: hidden;
-        height: {{height}}px;
-        width: {{width}}px;
+      #starRating {
+        display: inline-block;
+      }
+
+      .star {
+        display: inline-block;
+        width: 18px;
+        height: 17px;
+        margin-right: 5px;
+        background: url('images/rating.png') no-repeat;
+        background-position-y:-17px;
+      }
+
+      .star.check {
+        background-position-y:0;
       }
     </style>
   </template>
 
   <script>
-    Polymer('facebook-button', {
-      action     : 'like',
-      colorscheme: 'light',
-      font       : 'arial',
-      href       : 'http://customelements.io',
-      layout     : 'button_count',
-      showfaces  : 'false',
-      height     : '20',
-      width      : '120'
+    Polymer('star-rating', {
+      // number of votes
+      votes           : 1,
+      // sum of all votes
+      votesSum        : 3,
+      // number of star
+      starCount       : 5,
+      // make the polymer ready only
+      readyOnly       : false,
+      // url to update Votes
+      url : '',
+
+      created : function() {
+
+        var 
+
+          // cache this
+          self              = this,
+
+          // initial star value
+          initialValue,
+
+          // cache stars child
+          stars             = [],
+
+          // cache star in loop
+          star,
+
+          // cache a elements
+          a,
+
+          // cache loop variables
+          i , k;
+
+
+        // create stars
+        for ( i = 0, k = self.starCount; i < k; i++ ) {
+          a = document.createElement('a');
+          a.href = '#';
+          a.className = 'star';
+          this.$.starRating.appendChild(a);
+          stars.push(a);
+        }
+
+        // calculate init value
+        function calculateInitialValue() {
+
+          return Math.ceil( self.votesSum / self.votes ) - 1;
+
+        }
+
+        initialValue = calculateInitialValue();
+
+        // change the stars to the index
+        function changeTo( index ) {
+          var 
+
+            // cache star
+            star,
+
+            // cache new className
+            className;
+
+          for ( i = 0, k = self.starCount; i < k; i++ ) {
+            star = stars[i];
+
+            className = 'star';
+
+            if ( i <= index ) {
+              className += ' check';
+            }
+
+            star.className = className;
+          }
+        }
+
+        // show the initial star
+        changeTo( initialValue );
+
+        for ( i = 0, k = this.starCount; i < k; i++ ) {
+          star = stars[i];
+          // set index
+          star.setAttribute('index', i);
+
+          // star hover event
+          star.addEventListener('mouseenter', function(e){
+
+            if ( self.readyOnly ) {
+              return false;
+            }
+
+            changeTo( parseInt(this.getAttribute('index')) );
+
+          }, false);
+
+          // star click event
+          star.addEventListener('click', function(e){
+            e.preventDefault();
+
+            if ( self.readyOnly ) {
+              return false;
+            }
+
+            self.votesSum += parseInt( this.getAttribute('index') ) + 1;
+            self.votes++;
+
+            initialValue = calculateInitialValue();
+            changeTo( initialValue );
+
+            self.readyOnly = true;
+
+            // TODO make ajax call
+            if ( window.starRatingCallback ) {
+              window.starRatingCallback.call(self, {
+                type      : 'click',
+                votesSum  : self.votesSum,
+                votes     : self.votes
+              });
+            }
+
+            return false;
+          }, false);
+        }
+
+        // when mouse leave, back to current value
+        self.addEventListener('mouseleave', function(){
+
+          if ( self.readyOnly ) {
+            return false;
+          }
+
+          changeTo( initialValue );
+
+        }, false);
+      }
     });
   </script>
 
