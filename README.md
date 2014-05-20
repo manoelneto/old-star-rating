@@ -1,94 +1,39 @@
-# &lt;my-repo&gt;
+# &lt;star-rating&gt;
 
-> A bare minimum custom element starter-kit using [Polymer](http://www.polymer-project.org/).
->
-> Looking for a working example? Check [hello-world-polymer](https://github.com/webcomponents/hello-world-polymer).
+Web Component for generate a star rating using Polymer.
 
 ## Demo
 
-[Check it live!](http://my-user.github.io/my-repo)
-
-## Install
-
-Install the component using [Bower](http://bower.io/):
-
-```sh
-$ bower install my-repo --save
-```
-
-Or [download as ZIP](https://github.com/my-user/my-repo/archive/master.zip).
+> [Check it live](http://manoelneto.github.io/star-rating/demo.html).
 
 ## Usage
 
 1. Import Web Components' polyfill:
 
-    ```html
-    <script src="bower_components/platform/platform.js"></script>
+    ```xml
+    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.0.20130816/polymer.min.js"></script>
     ```
 
 2. Import Custom Element:
 
-    ```html
-    <link rel="import" href="bower_components/my-repo/dist/my-element.html">
+    ```xml
+    <link rel="import" href="src/star-rating.html">
     ```
 
 3. Start using it!
 
-    ```html
-    <my-element></my-element>
+    ```xml
+    <star-rating></star-rating>
     ```
 
 ## Options
 
-Attribute     | Options     | Default      | Description
----           | ---         | ---          | ---
-`foo`         | *string*    | `bar`        | Lorem ipsum dolor.
-
-## Methods
-
-Method        | Parameters   | Returns     | Description
----           | ---          | ---         | ---
-`unicorn()`   | None.        | Nothing.    | Magic stuff appears.
-
-## Events
-
-Event         | Description
----           | ---
-`onsomething` | Triggers when something happens.
-
-## Development
-
-In order to run it locally you'll need to fetch some dependencies and a basic server setup.
-
-* Install [Bower](http://bower.io/) & [Grunt](http://gruntjs.com/):
-
-    ```sh
-    $ [sudo] npm install -g bower grunt-cli
-    ```
-
-* Install local dependencies:
-
-    ```sh
-    $ bower install && npm install
-    ```
-
-* To test your project, start the development server and open `http://localhost:8000`.
-
-    ```sh
-    $ grunt server
-    ```
-
-* To build the distribution files before releasing a new version.
-
-    ```sh
-    $ grunt build
-    ```
-
-* To provide a live demo, send everything to `gh-pages` branch.
-
-    ```sh
-    $ grunt deploy
-    ```
+Attribute     | Options             | Default        | Description
+---           | ---                 | ---            | ---
+`votes`      | *number* | 0 | The votes count
+`votesSum` | *number* | 0 | The votes sum 
+`starCount`        | *number* | 5 | The number of star to display
+`readyOnly`        | true, false | false | Make the stars not interactable
 
 ## Contributing
 
@@ -100,8 +45,8 @@ In order to run it locally you'll need to fetch some dependencies and a basic se
 
 ## History
 
-For detailed changelog, check [Releases](https://github.com/my-user/my-repo/releases).
+Check [Release](https://github.com/manoelneto/star-rating/releases/) list.
 
 ## License
 
-[MIT License](http://opensource.org/licenses/MIT)
+[MIT License](http://mit-license.org/) © Manoel Quirino
